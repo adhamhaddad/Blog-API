@@ -86,7 +86,6 @@ class Post {
         values: [id]
       };
       const result = await connection.query(query);
-      console.log(result.rows[0]);
 
       if (!result.rows[0]) return result.rows[0];
       return {
