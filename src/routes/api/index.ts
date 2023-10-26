@@ -1,4 +1,5 @@
+import auth from './auth';
 import users from './users';
 import posts from './posts';
 
-export { users, posts };
+export { auth, users, posts };

@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { users, posts } from './api';
+import { auth, users, posts } from './api';
 
 const router = Router();
 
+router.use('/auth', auth);
 router.use('/users', users);
 router.use('/posts', posts);
 
