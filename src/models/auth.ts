@@ -25,12 +25,12 @@ class Auth {
       };
       const result = await connection.query(query);
       if (result.rows.length) {
-        const { id, password: hash } = result.rows[0];
+        const { password: hash } = result.rows[0];
         const check = await compare(u.password, hash);
         if (check) {
           const query = {
-            text: 'SELECT id, uuid, name, email FROM users WHERE id=$1',
-            values: [id]
+            text: 'SELECT id, uuid, name, email FROM users WHERE email=$1',
+            values: [u.email]
           };
           const result = await connection.query(query);
           return result.rows[0];

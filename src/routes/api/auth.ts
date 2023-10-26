@@ -3,7 +3,7 @@ import {
   validateRegister,
   validateLogin
 } from '../../middleware/validation/auth';
-import { createUser, authUser, authMe } from '../../controllers/auth';
+import { createUser, authUser } from '../../controllers/auth';
 import { expressFilterRequest } from '../../middleware';
 
 const router = Router();
@@ -19,7 +19,6 @@ router
     expressFilterRequest(allowedKeys),
     createUser
   )
-  .post('/login', validateLogin, expressFilterRequest(allowedKeys), authUser)
-  .get('/auth-me', authMe);
+  .post('/login', validateLogin, expressFilterRequest(allowedKeys), authUser);
 
 export default router;

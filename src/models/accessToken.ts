@@ -1,12 +1,6 @@
 import { PoolClient } from 'pg';
 import { pgClient } from '../database';
-
-type AccessTokenType = {
-  id?: number;
-  token: string;
-  expiration: Date;
-  user_id: number;
-};
+import { TokenType } from '../types/token';
 
 class AccessToken {
   async withConnection<T>(
@@ -22,8 +16,19 @@ class AccessToken {
     }
   }
 
-  async createAccessToken(t: AccessTokenType): Promise<void> {
+  async cleanUpToken(user_id: number): Promise<void> {
     return this.withConnection(async (connection: PoolClient) => {
+      const query = {
+        text: 'DELETE FROM access_tokens WHERE user_id=$1',
+        values: [user_id]
+      };
+      await connection.query(query);
+    });
+  }
+
+  async createAccessToken(t: TokenType): Promise<void> {
+    return this.withConnection(async (connection: PoolClient) => {
+      await this.cleanUpToken(t.user_id);
       const query = {
         text: 'INSERT INTO access_tokens (user_id, token, expiration) VALUES ($1, $2, $3)',
         values: [t.user_id, t.token, t.expiration]
@@ -41,7 +46,7 @@ class AccessToken {
       return result.rows[0].token;
     });
   }
-  async deleteAccessToken(t: AccessTokenType): Promise<void> {
+  async deleteAccessToken(t: TokenType): Promise<void> {
     return this.withConnection(async (connection: PoolClient) => {
       const query = {
         text: 'DELETE FROM access_tokens WHERE user_id=$1 AND expiration <= $2',

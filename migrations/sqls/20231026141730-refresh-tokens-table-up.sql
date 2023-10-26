@@ -1,6 +1,0 @@
-CREATE TABLE IF NOT EXISTS refresh_tokens (
-    id SERIAL PRIMARY KEY,
-    token TEXT NOT NULL,
-    expiration TIMESTAMP,
-    user_id INT NOT NULL UNIQUE REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
-);
