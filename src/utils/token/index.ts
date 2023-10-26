@@ -5,12 +5,14 @@ import { verifyRefreshToken } from './verifyRefreshToken';
 import { authMe } from './authMe';
 
 interface Payload {
-  id: string;
+  id: number;
+  uuid: string;
   name: string;
   email: string;
 }
 interface DecodedToken {
-  id: string;
+  id: number;
+  uuid: string;
   name?: string;
   email: string;
 }

@@ -5,7 +5,7 @@ type AccessTokenType = {
   id?: number;
   token: string;
   expiration: Date;
-  user_id: string;
+  user_id: number;
 };
 
 class AccessToken {
@@ -31,7 +31,7 @@ class AccessToken {
       await connection.query(query);
     });
   }
-  async getAccessToken(user_id: string): Promise<string> {
+  async getAccessToken(user_id: number): Promise<string> {
     return this.withConnection(async (connection: PoolClient) => {
       const query = {
         text: 'SELECT token FROM access_tokens WHERE user_id=$1',

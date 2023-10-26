@@ -31,7 +31,7 @@ class RefreshToken {
       await connection.query(query);
     });
   }
-  async getRefreshToken(user_id: string): Promise<string> {
+  async getRefreshToken(user_id: number): Promise<string> {
     return this.withConnection(async (connection: PoolClient) => {
       const query = {
         text: 'SELECT token FROM refresh_tokens WHERE user_id=$1',

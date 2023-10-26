@@ -43,9 +43,9 @@ export const authMe = async (req: Request, res: Response) => {
       if (!cachedToken || cachedToken !== token) {
         throw new Error('Access token not found or expired');
       }
-      const { id, name, email } = decoded;
+      const { id, uuid, name, email } = decoded;
 
-      req.user = { id, email };
+      req.user = { id, uuid, email };
 
       return res.status(200).json({
         data: {
@@ -72,11 +72,11 @@ export const authMe = async (req: Request, res: Response) => {
 
       // Verify the refresh token and obtain a new access token
       const decoded = await verifyRefreshToken(token);
-      const { id, name, email } = decoded;
-      const newAccessToken = await setAccessToken({ id, name, email });
+      const { id, uuid, name, email } = decoded;
+      const newAccessToken = await setAccessToken({ id, uuid, name, email });
 
       // Attach user object to request and proceed with new access token
-      req.user = { id, email };
+      req.user = { id, uuid, email };
 
       return res.status(200).json({
         data: {

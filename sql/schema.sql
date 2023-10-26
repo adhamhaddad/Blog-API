@@ -66,3 +66,21 @@ CREATE TABLE IF NOT EXISTS posts (
     created_at TIMESTAMP DEFAULT timezone('UTC', now()),
     updated_at TIMESTAMP DEFAULT timezone('UTC', now())
 );
+-- -------------------------
+-- Table access_tokens
+-- -------------------------
+CREATE TABLE IF NOT EXISTS access_tokens (
+  id SERIAL PRIMARY KEY,
+  token TEXT NOT NULL,
+  expiration TIMESTAMP,
+  user_id INT NOT NULL UNIQUE REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+-- -------------------------
+-- Table refresh_tokens
+-- -------------------------
+CREATE TABLE IF NOT EXISTS refresh_tokens (
+  id SERIAL PRIMARY KEY,
+  token TEXT NOT NULL,
+  expiration TIMESTAMP,
+  user_id INT NOT NULL UNIQUE REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
