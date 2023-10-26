@@ -6,7 +6,7 @@ const user = new User();
 
 export const deleteUser = async (req: Request, res: Response) => {
   try {
-    const user_id: string = req.user?.id as unknown as string;
+    const user_id: string = req.user?.uuid as unknown as string;
     const response = await user.deleteUser(user_id);
     res.setHeader('Content-Location', `/users/${response.id}`);
     res.status(204).send();

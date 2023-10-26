@@ -48,7 +48,7 @@ export const verifyAccessToken = async (
       if (!cachedToken || cachedToken !== token) {
         throw new Error('Access token not found or expired');
       }
-      req.user = { id: decoded.id, email: decoded.email };
+      req.user = { id: decoded.id, uuid: decoded.uuid, email: decoded.email };
 
       return next();
     } catch (err) {
@@ -69,11 +69,11 @@ export const verifyAccessToken = async (
         );
       }
       const decoded = await verifyRefreshToken(token);
-      const { id, name, email } = decoded;
-      const newAccessToken = await setAccessToken({ id, name, email });
+      const { id, uuid, name, email } = decoded;
+      const newAccessToken = await setAccessToken({ id, uuid, name, email });
 
       // Attach user object to request and proceed with new access token
-      req.user = { id, email };
+      req.user = { id, uuid, email };
 
       return next();
     }

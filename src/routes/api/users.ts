@@ -12,7 +12,7 @@ import {
 import { verifyToken, expressFilterRequest } from '../../middleware';
 
 const allowedKeys = {
-  patch: ['first_name', 'last_name', 'email']
+  patch: ['name']
 };
 
 const router = Router();
