@@ -1,3 +1,4 @@
 import users from './users';
+import posts from './posts';
 
-export { users };
+export { users, posts };
