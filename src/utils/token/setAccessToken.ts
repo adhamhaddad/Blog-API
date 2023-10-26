@@ -22,12 +22,13 @@ export const setAccessToken = async (payload: Payload): Promise<string> => {
     const options: SignOptions = {
       algorithm: 'RS256',
       expiresIn: configs.jwt.access_expires,
-      issuer: 'Task-App',
+      issuer: 'Blog-App',
       audience: `user_id-${String(payload.id)}`,
       subject: 'access_token'
     };
     const token = jwt.sign(payload, privateKey, options);
     const expiration = new Date(Date.now() + configs.jwt.access_expires * 1000);
+
     await accessToken.createAccessToken({
       user_id: payload.id,
       token,

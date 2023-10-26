@@ -2,7 +2,7 @@ import { Request as ExpressRequest, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import path from 'path';
-import { verifyRefreshToken, setAccessToken, DecodedToken } from '.';
+import { setAccessToken, DecodedToken } from '.';
 import AccessToken from '../../models/accessToken';
 
 const publicAccessKey = path.join(
@@ -41,7 +41,7 @@ export const verifyAccessToken = async (
       const publicKey = await fs.promises.readFile(publicAccessKey, 'utf8');
       const decoded = jwt.verify(token, publicKey, {
         algorithms: ['RS256'],
-        issuer: 'Task-App'
+        issuer: 'Blog-App'
       }) as DecodedToken;
 
       const cachedToken = await accessToken.getAccessToken(decoded.id);
@@ -55,27 +55,7 @@ export const verifyAccessToken = async (
       if ((err as Error).name !== 'TokenExpiredError') {
         throw new Error('Invalid access token');
       }
-      // Get Refresh-Token
-      const refreshToken = req.get('X-Refresh-Token') as string;
-
-      // const refreshToken = req.cookies.refreshToken;
-      if (!refreshToken) {
-        throw new Error('Refresh token missing');
-      }
-      const [bearer, token] = refreshToken.split(' ');
-      if (bearer !== 'Bearer' || !token) {
-        throw new Error(
-          'Invalid Authorization header format. Format is "Bearer <token>".'
-        );
-      }
-      const decoded = await verifyRefreshToken(token);
-      const { id, uuid, name, email } = decoded;
-      const newAccessToken = await setAccessToken({ id, uuid, name, email });
-
-      // Attach user object to request and proceed with new access token
-      req.user = { id, uuid, email };
-
-      return next();
+      return res.status(401).send('You need to login again');
     }
   } catch (err) {
     res.status(401).json({ message: (err as Error).message });
