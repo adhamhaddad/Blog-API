@@ -16,14 +16,14 @@ CREATE DATABASE blog_test;
 -- -------------------------
 -- Role admin
 -- -------------------------
-DROP ROLE IF EXISTS admin;
+-- DROP ROLE IF EXISTS admin;
 --
 --
-CREATE ROLE admin WITH PASSWORD 'admin';
+-- CREATE ROLE admin WITH PASSWORD 'admin';
 -- -------------------------
 -- Alter Role admin
 -- -------------------------
-ALTER ROLE admin WITH SUPERUSER CREATEROLE CREATEDB LOGIN;
+-- ALTER ROLE admin WITH SUPERUSER CREATEROLE CREATEDB LOGIN;
 -- -------------------------
 -- Database GRANT PRIVILEGES
 -- -------------------------
@@ -45,40 +45,31 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- Table users
 -- -------------------------
 CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
-    uuid uuid uuid_generate_v4() UNIQUE NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT timezone('UTC', now()),
-    updated_at TIMESTAMP DEFAULT timezone('UTC', now()),
-    deleted_at TIMESTAMP
+  id SERIAL PRIMARY KEY,
+  uuid UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT timezone('UTC', now()),
+  updated_at TIMESTAMP DEFAULT timezone('UTC', now()),
+  deleted_at TIMESTAMP
 );
 -- -------------------------
 -- Table posts
 -- -------------------------
 CREATE TABLE IF NOT EXISTS posts (
-    id SERIAL PRIMARY KEY,
-    uuid uuid uuid_generate_v4() UNIQUE NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    content TEXT NOT NULL,
-    created_by INT NOT NULL REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    created_at TIMESTAMP DEFAULT timezone('UTC', now()),
-    updated_at TIMESTAMP DEFAULT timezone('UTC', now())
+  id SERIAL PRIMARY KEY,
+  uuid UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  content TEXT NOT NULL,
+  created_by INT NOT NULL REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  created_at TIMESTAMP DEFAULT timezone('UTC', now()),
+  updated_at TIMESTAMP DEFAULT timezone('UTC', now())
 );
 -- -------------------------
 -- Table access_tokens
 -- -------------------------
 CREATE TABLE IF NOT EXISTS access_tokens (
-  id SERIAL PRIMARY KEY,
-  token TEXT NOT NULL,
-  expiration TIMESTAMP,
-  user_id INT NOT NULL UNIQUE REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
-);
--- -------------------------
--- Table refresh_tokens
--- -------------------------
-CREATE TABLE IF NOT EXISTS refresh_tokens (
   id SERIAL PRIMARY KEY,
   token TEXT NOT NULL,
   expiration TIMESTAMP,

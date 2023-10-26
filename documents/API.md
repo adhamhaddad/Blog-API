@@ -1,14 +1,21 @@
 # Blog-API
 
 - [Blog-API](#blog-api)
+  - [Auth](#auth)
   - [Users](#users)
   - [Posts](#posts)
 
+## Auth
+
+There is only two APIs of Auth
+
+- Register User - View the [API](./APIs/Auth/register.md) documentation
+
+- Login User - View the [API](./APIs/Auth/login.md) documentation
+
 ## Users
 
-There is only five APIs of Users
-
-- Create User - View the [API](./APIs/Users/create-user.md) documentation
+There is only four APIs of Users
 
 - List Users - View the [API](./APIs/Users/list-users.md) documentation
 

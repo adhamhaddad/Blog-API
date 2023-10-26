@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { setAccessToken, setRefreshToken } from '../../utils/token';
+import { setAccessToken } from '../../utils/token';
 import Auth from '../../models/auth';
 
 const auth = new Auth();
@@ -9,11 +9,8 @@ export const authUser = async (req: Request, res: Response) => {
     // Authenticate the user and generate an access token and refresh token
     const response = await auth.authUser(req.body);
     const accessToken = await setAccessToken(response);
-    const refreshToken = await setRefreshToken(response);
 
-    res
-      .status(200)
-      .json({ data: { user: { ...response }, accessToken, refreshToken } });
+    res.status(200).json({ data: response, accessToken });
   } catch (error) {
     if ((error as Error).message.includes('Password')) {
       return res

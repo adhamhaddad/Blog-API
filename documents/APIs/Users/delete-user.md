@@ -16,6 +16,6 @@ The request headers should have the following properties:
 
 ### Response
 
-If the request is success, the server will respond with a status code of 200 OK.
+If the request is success, the server will respond with a status code of 204.
 
 ### [Back to README](../../API.md#users)

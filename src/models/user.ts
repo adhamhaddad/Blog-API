@@ -22,9 +22,9 @@ class User {
         text: `
             INSERT INTO users (name, email, password)
             VALUES ($1, $2, $3)
-            RETURNING id, name, email
+            RETURNING id, uuid, name, email
           `,
-        values: [u.name.trim(), u.email.trim(), hash(u.password)]
+        values: [u.name.trim(), u.email.trim(), await hash(u.password)]
       };
       const result = await connection.query(query);
       return result.rows[0];
@@ -55,7 +55,7 @@ class User {
         text: `
           UPDATE users SET name=$2, updated_at=CURRENT_TIMESTAMP
           WHERE uuid=$1
-          RETURNING *
+          RETURNING uuid, name, email
         `,
         values: [id, u.name]
       };
